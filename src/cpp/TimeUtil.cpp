@@ -1,11 +1,9 @@
 
 #include "../h/TimeUtil.h"
 
-TimeUtil::TimeUtil() {}
+TimeUtil::TimeUtil() = default;
 
-TimeUtil::~TimeUtil() {
-
-}
+TimeUtil::~TimeUtil() = default;
 
 void TimeUtil::TimeToString(time_t time1, char *szTime) {
     struct tm *tm1;
@@ -17,8 +15,8 @@ void TimeUtil::TimeToString(time_t time1, char *szTime) {
             tm1->tm_mday);
 }
 
-time_t TimeUtil::StringToTime(char *szTime) {
-    struct tm tm1;
+__attribute__((unused)) time_t TimeUtil::StringToTime(char *szTime) {
+    struct tm tm1{};
     time_t time1 = NULL;
     sscanf(szTime, "%4d%2d%2d%2d%2d%2d",
            &tm1.tm_year,

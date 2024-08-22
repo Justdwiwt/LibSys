@@ -2,8 +2,6 @@
 
 #include "../h/BorrowRecord.h"
 
-BorrowRecord::BorrowRecord() {}
+BorrowRecord::BorrowRecord() = default;
 
-BorrowRecord::~BorrowRecord() {
-
-}
+BorrowRecord::~BorrowRecord() = default;

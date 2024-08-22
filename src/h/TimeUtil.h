@@ -15,11 +15,11 @@ public:
 
     virtual ~TimeUtil();
 
-    void TimeToString(time_t time1, char *szTime);
+    static void TimeToString(time_t time1, char *szTime);
 
-    time_t StringToTime(char *szTime);
+    __attribute__((unused)) static time_t StringToTime(char *szTime);
 
-    string AddMonth(time_t &tTime);
+    static string AddMonth(time_t &tTime);
 };
 
 #endif //LIBSYS_TIMEUTIL_H

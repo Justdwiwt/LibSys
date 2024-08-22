@@ -1,13 +1,13 @@
 #ifndef LIBSYS_MANAGER_H
 #define LIBSYS_MANAGER_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <windows.h>
 #include <vector>
 #include <iomanip>
 #include <algorithm>
-#include <ctype.h>
-#include <time.h>
+#include <cctype>
+#include <ctime>
 #include "User.h"
 #include "Book.h"
 #include "TimeUtil.h"
@@ -19,15 +19,15 @@ class Manager : public User {
 public:
     Manager();
 
-    virtual ~Manager();
+    ~Manager() override;
 
-    void ShowMenu();
+    static void ShowMenu();
 
     bool AddBook();
 
     bool DisplayAllBook();
 
-    bool QueryBook(string strBookName);
+    bool QueryBook(const string &strBookName);
 
     bool DeleteBook(int nBookId);
 

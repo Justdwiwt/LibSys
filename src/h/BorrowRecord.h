@@ -14,13 +14,13 @@ public:
 
     virtual ~BorrowRecord();
 
-    int m_nBorrowId;
-    int m_nBookId;
-    int m_nUserId;
+    int m_nBorrowId{};
+    int m_nBookId{};
+    int m_nUserId{};
     string m_tBorrowDate;
     string m_tShouldReturnDate;
     string m_tReturnDate;
-    int m_nContinue;
+    int m_nContinue{};
 };
 
 #endif //LIBSYS_BORROWRECORD_H

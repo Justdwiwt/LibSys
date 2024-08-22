@@ -2,6 +2,8 @@
 // Created by 段泽宇 on 2019/7/23.
 //
 
+#include <utility>
+
 #include "../h/Book.h"
 
 int Book::getMNBookId() const {
@@ -68,18 +70,16 @@ void Book::setMNLeftNum(int mNLeftNum) {
     m_nLeftNum = mNLeftNum;
 }
 
-Book::Book(int mNBookId, const string &mStrBookName, const string &mStrAuthor, const string &mStrIsbn,
-           const string &mStrPub, const string &mInDate, int mNTotalNum, int mNLeftNum) : m_nBookId(mNBookId),
-                                                                                          m_strBookName(mStrBookName),
-                                                                                          m_strAuthor(mStrAuthor),
-                                                                                          m_strISBN(mStrIsbn),
-                                                                                          m_strPub(mStrPub),
-                                                                                          m_inDate(mInDate),
+Book::Book(int mNBookId, string mStrBookName, string mStrAuthor, string mStrIsbn,
+           string mStrPub, string mInDate, int mNTotalNum, int mNLeftNum) : m_nBookId(mNBookId),
+                                                                            m_strBookName(std::move(mStrBookName)),
+                                                                            m_strAuthor(std::move(mStrAuthor)),
+                                                                            m_strISBN(std::move(mStrIsbn)),
+                                                                            m_strPub(std::move(mStrPub)),
+                                                                            m_inDate(std::move(mInDate)),
                                                                                           m_nTotalNum(mNTotalNum),
                                                                                           m_nLeftNum(mNLeftNum) {}
 
-Book::~Book() {
+Book::~Book() = default;
 
-}
-
-Book::Book() {}
+Book::Book() = default;

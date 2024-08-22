@@ -1,6 +1,6 @@
 
 #include "../h/User.h"
 
-User::User() {}
+User::User() = default;
 
-User::~User() {}
+User::~User() = default;

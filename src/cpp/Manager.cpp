@@ -1,9 +1,9 @@
 
 #include "../h/Manager.h"
 
-Manager::Manager() {}
+Manager::Manager() = default;
 
-Manager::~Manager() {}
+Manager::~Manager() = default;
 
 void Manager::ShowMenu() {
     system("cls");
@@ -26,7 +26,7 @@ bool Manager::AddBook() {
     int total;
     char szTime[32] = {0};
     time_t lt;
-    lt = time(NULL);
+    lt = time(nullptr);
     m_timeUtil.TimeToString(lt, szTime);
 
     cout << "你选择的是新增图书功能，请依次输入图书信息" << endl;
@@ -77,7 +77,7 @@ bool Manager::DisplayAllBook() {
     return true;
 }
 
-bool Manager::QueryBook(string strBookName) {
+bool Manager::QueryBook(const string &strBookName) {
     vector<Book> books;
     if (!m_dbUtil.isOpen) {
         m_dbUtil.OpenDB();

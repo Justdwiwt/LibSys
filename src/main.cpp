@@ -3,14 +3,13 @@
 #include "h/Manager.h"
 #include "h/DB.h"
 #include "h/Student.h"
-#include "h/Book.h"
 
 using namespace std;
 
 int main() {
-    string strUserName = "";
-    string strUserPWD = "";
-    bool bIsLogin = false;
+    string strUserName;
+    string strUserPWD;
+    bool bIsLogin;
     User user;
     cout << "                          请输入用户名：";
     cin >> strUserName;
@@ -41,11 +40,11 @@ int main() {
         manager.m_nRole = user.m_nRole;
         int command = -1;        //选择命令
         bIsLogin = true;
-        string strBookName = "";
+        string strBookName;
         int nBookId = 0;
         while (bIsLogin) {
             system("cls");
-            manager.ShowMenu();
+            Manager::ShowMenu();
             cout << "请选择命令：";
             cin >> command;
             switch (command) {
@@ -91,11 +90,11 @@ int main() {
         student.m_nRole = user.m_nRole;
         int command = -1;        //选择命令
         bIsLogin = true;
-        string strBookName = "";
+        string strBookName;
         int nBookId;
         while (bIsLogin) {
             system("cls");
-            student.ShowMenu();
+            Student::ShowMenu();
             cout << "请选择命令：";
             cin >> command;
             switch (command) {

@@ -1,11 +1,11 @@
 #ifndef LIBSYS_DB_H
 #define LIBSYS_DB_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <winsock.h>
-#include "../include/mysql.h"
+#include "../../include/mysql.h"
 #include <iostream>
 #include <vector>
 #include "User.h"
@@ -25,23 +25,23 @@ public:
 
     bool CloseDB();
 
-    User ReadUser(string strUserName, string strUserPWD);
+    User ReadUser(const string &strUserName, const string &strUserPWD);
 
-    bool AddBook(Book book);
+    bool AddBook(const Book &book);
 
     bool SelectAllBook(vector<Book> &books);
 
-    bool SelectBookByName(string strBookName, vector<Book> &books);
+    bool SelectBookByName(const string &strBookName, vector<Book> &books);
 
     bool SelectBookById(int nBookId, Book &book);
 
     bool DeleteBookById(int nBookId);
 
-    bool AddBorrowRecord(BorrowRecord borrowRecord);
+    bool AddBorrowRecord(const BorrowRecord &borrowRecord);
 
     bool ExtendBorrowRecord(int nRecordId);
 
-    bool SelectBorrowRecordByRecordId(BorrowRecord &borrowRecord, int nRecordId);
+    __attribute__((unused)) bool SelectBorrowRecordByRecordId(BorrowRecord &borrowRecord, int nRecordId);
 
     bool FinishBorrowRecord(int nRecordId, int nBookId);
 
@@ -51,7 +51,7 @@ public:
 
     User SelectUserById(int nUserId);
 
-    bool AddUser(User user);
+    bool AddUser(const User &user);
 
     bool SelectAllUser(vector<User> &users);
 
@@ -60,10 +60,10 @@ public:
     string szHost;
     string szDatabase;
     int nPort;
-    MYSQL myCont;
-    MYSQL_RES *result;
-    MYSQL_ROW sql_row;
-    MYSQL_FIELD *fd;
+    MYSQL myCont{};
+    MYSQL_RES *result{};
+    MYSQL_ROW sql_row{};
+    MYSQL_FIELD *fd{};
     bool isOpen;
     TimeUtil timeUtil;
 };

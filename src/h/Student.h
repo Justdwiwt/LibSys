@@ -1,12 +1,12 @@
 #ifndef LIBSYS_STUDENT_H
 #define LIBSYS_STUDENT_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <vector>
 #include <iomanip>
 #include <algorithm>
-#include <ctype.h>
-#include <time.h>
+#include <cctype>
+#include <ctime>
 #include "User.h"
 #include "Book.h"
 #include "TimeUtil.h"
@@ -20,11 +20,11 @@ class Student : public User {
 public:
     Student();
 
-    virtual ~Student();
+    ~Student() override;
 
-    void ShowMenu();
+    static void ShowMenu();
 
-    bool QueryBook(string strBookName);
+    bool QueryBook(const string &strBookName);
 
     bool BorrowBook(int nBookId);
 

@@ -1,9 +1,9 @@
 
 #include "../h/Student.h"
 
-Student::Student() {}
+Student::Student() = default;
 
-Student::~Student() {}
+Student::~Student() = default;
 
 void Student::ShowMenu() {
     system("cls");
@@ -16,7 +16,7 @@ void Student::ShowMenu() {
     cout << "                              0.退出登录" << endl;
 }
 
-bool Student::QueryBook(string strBookName) {
+bool Student::QueryBook(const string &strBookName) {
     vector<Book> books;
     if (!m_dbUtil.isOpen) {
         m_dbUtil.OpenDB();
@@ -70,7 +70,7 @@ bool Student::BorrowBook(int nBookId) {
                 BorrowRecord borrowRecord;
                 borrowRecord.m_nBookId = book.getMNBookId();
                 borrowRecord.m_nUserId = m_nID;
-                time_t tTemp = time(NULL);
+                time_t tTemp = time(nullptr);
                 char szTime[16] = {0};
                 m_timeUtil.TimeToString(tTemp, szTime);
                 borrowRecord.m_tBorrowDate = szTime;
@@ -215,7 +215,7 @@ bool Student::RenewBook() {
         }
     }
 
-    if (true == bCanContinue) {
+    if (bCanContinue) {
         m_dbUtil.ExtendBorrowRecord(nRecordId);
         cout << "续借成功!" << endl;
     } else {

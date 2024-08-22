@@ -13,10 +13,10 @@ public:
 
     virtual ~User();
 
-    int m_nID;
+    int m_nID{};
     string m_strName;
     string m_strPassword;
-    int m_nRole;
+    int m_nRole{};
 };
 
 #endif //LIBSYS_USER_H

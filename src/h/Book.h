@@ -14,8 +14,8 @@ public:
 
     virtual ~Book();
 
-    Book(int mNBookId, const string &mStrBookName, const string &mStrAuthor, const string &mStrIsbn,
-         const string &mStrPub, const string &mInDate, int mNTotalNum, int mNLeftNum);
+    Book(int mNBookId, string mStrBookName, string mStrAuthor, string mStrIsbn,
+         string mStrPub, string mInDate, int mNTotalNum, int mNLeftNum);
 
     int getMNBookId() const;
 
@@ -50,14 +50,14 @@ public:
     void setMNLeftNum(int mNLeftNum);
 
 private:
-    int m_nBookId;
+    int m_nBookId{};
     string m_strBookName;
     string m_strAuthor;
     string m_strISBN;
     string m_strPub;
     string m_inDate;
-    int m_nTotalNum;
-    int m_nLeftNum;
+    int m_nTotalNum{};
+    int m_nLeftNum{};
 };
 
 #endif //LIBSYS_BOOK_H

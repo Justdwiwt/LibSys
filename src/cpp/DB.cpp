@@ -21,7 +21,7 @@ bool DB::OpenDB() {
                            szPswd.c_str(),
                            szDatabase.c_str(),
                            nPort,
-                           NULL,
+                           nullptr,
                            0)) {
         isOpen = true;
         return true;
@@ -34,7 +34,7 @@ bool DB::CloseDB() {
     return true;
 }
 
-User DB::ReadUser(string strUserName, string strUserPWD) {
+User DB::ReadUser(const string &strUserName, const string &strUserPWD) {
     User user;
     char column[32][32];
     int res;
@@ -51,7 +51,7 @@ User DB::ReadUser(string strUserName, string strUserPWD) {
             result = mysql_store_result(&myCont);
             if (result->row_count > 0) {
                 int i, j;
-                for (i = 0; fd = mysql_fetch_field(result); i++) {
+                for (i = 0; (fd = mysql_fetch_field(result)); i++) {
                     strcpy(column[i], fd->name);
                 }
                 j = mysql_num_fields(result);
@@ -72,14 +72,14 @@ User DB::ReadUser(string strUserName, string strUserPWD) {
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return user;
 }
 
-bool DB::AddBook(Book book) {
-    string sql = "";
+bool DB::AddBook(const Book &book) {
+    string sql;
     char szTotal[16];
     char szLeftNum[16];
     sprintf(szTotal, "%d", book.getMNTotalNum());
@@ -114,7 +114,7 @@ bool DB::SelectAllBook(vector<Book> &books) {
         if (!res) {
             result = mysql_store_result(&myCont);
             if (result) {
-                while (sql_row = mysql_fetch_row(result)) {
+                while ((sql_row = mysql_fetch_row(result))) {
                     Book book;
                     book.setMNBookId(atoi(sql_row[0]));
                     book.setMStrBookName(sql_row[1]);
@@ -133,13 +133,13 @@ bool DB::SelectAllBook(vector<Book> &books) {
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return true;
 }
 
-bool DB::SelectBookByName(string strBookName, vector<Book> &books) {
+bool DB::SelectBookByName(const string &strBookName, vector<Book> &books) {
     int res;
     string sql;
     if (isOpen) {
@@ -149,7 +149,7 @@ bool DB::SelectBookByName(string strBookName, vector<Book> &books) {
         if (!res) {
             result = mysql_store_result(&myCont);
             if (result) {
-                while (sql_row = mysql_fetch_row(result)) {
+                while ((sql_row = mysql_fetch_row(result))) {
                     Book book;
                     book.setMNBookId(atoi(sql_row[0]));
                     book.setMStrBookName(sql_row[1]);
@@ -168,7 +168,7 @@ bool DB::SelectBookByName(string strBookName, vector<Book> &books) {
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return true;
@@ -187,7 +187,7 @@ bool DB::SelectBookById(int nBookId, Book &book) {
         if (!res) {
             result = mysql_store_result(&myCont);
             if (result) {
-                while (sql_row = mysql_fetch_row(result)) {
+                while ((sql_row = mysql_fetch_row(result))) {
                     book.setMNBookId(atoi(sql_row[0]));
                     book.setMStrBookName(sql_row[1]);
                     book.setMStrAuthor(sql_row[2]);
@@ -204,7 +204,7 @@ bool DB::SelectBookById(int nBookId, Book &book) {
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return true;
@@ -232,8 +232,8 @@ bool DB::DeleteBookById(int nBookId) {
     return true;
 }
 
-bool DB::AddBorrowRecord(BorrowRecord borrowRecord) {
-    string sql = "";
+bool DB::AddBorrowRecord(const BorrowRecord &borrowRecord) {
+    string sql;
     char szBookId[16];
     char szUserId[16];
     sprintf(szBookId, "%d", borrowRecord.m_nBookId);
@@ -257,9 +257,8 @@ bool DB::AddBorrowRecord(BorrowRecord borrowRecord) {
 }
 
 bool DB::ExtendBorrowRecord(int nRecordId) {
-    string sql = "";
+    string sql;
     char szRecordId[16];
-    char szBookId[16];
     sprintf(szRecordId, "%d", nRecordId);
     time_t tTemp = time(NULL);
     if (isOpen) {
@@ -272,7 +271,7 @@ bool DB::ExtendBorrowRecord(int nRecordId) {
     return true;
 }
 
-bool DB::SelectBorrowRecordByRecordId(BorrowRecord &borrowRecord, int nRecordId) {
+__attribute__((unused)) bool DB::SelectBorrowRecordByRecordId(BorrowRecord &borrowRecord, int nRecordId) {
     int res;
     string sql;
     char szRecordId[8] = {0};
@@ -289,7 +288,7 @@ bool DB::SelectBorrowRecordByRecordId(BorrowRecord &borrowRecord, int nRecordId)
                 borrowRecord.m_nUserId = atoi(sql_row[2]);
                 borrowRecord.m_tBorrowDate = sql_row[3];
                 borrowRecord.m_tShouldReturnDate = sql_row[4];
-                borrowRecord.m_tReturnDate = (sql_row[5] == NULL ? "" : sql_row[5]);
+                borrowRecord.m_tReturnDate = (sql_row[5] == nullptr ? "" : sql_row[5]);
                 borrowRecord.m_nContinue = atoi(sql_row[6]);
 
             }
@@ -299,19 +298,19 @@ bool DB::SelectBorrowRecordByRecordId(BorrowRecord &borrowRecord, int nRecordId)
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return true;
 }
 
 bool DB::FinishBorrowRecord(int nRecordId, int nBookId) {
-    string sql = "";
+    string sql;
     char szRecordId[16];
     char szBookId[16];
     sprintf(szRecordId, "%d", nRecordId);
     sprintf(szBookId, "%d", nBookId);
-    time_t tTemp = time(NULL);
+    time_t tTemp = time(nullptr);
     char szTime[16] = {0};
     timeUtil.TimeToString(tTemp, szTime);
     if (isOpen) {
@@ -338,14 +337,14 @@ bool DB::SelectAllBorrowRecord(vector<BorrowRecord> &borrowRecords) {
         if (!res) {
             result = mysql_store_result(&myCont);
             if (result) {
-                while (sql_row = mysql_fetch_row(result)) {
+                while ((sql_row = mysql_fetch_row(result))) {
                     BorrowRecord borrowRecord;
                     borrowRecord.m_nBorrowId = atoi(sql_row[0]);
                     borrowRecord.m_nBookId = atoi(sql_row[1]);
                     borrowRecord.m_nUserId = atoi(sql_row[2]);
                     borrowRecord.m_tBorrowDate = sql_row[3];
                     borrowRecord.m_tShouldReturnDate = sql_row[4];
-                    borrowRecord.m_tReturnDate = (sql_row[5] == NULL ? "" : sql_row[5]);
+                    borrowRecord.m_tReturnDate = (sql_row[5] == nullptr ? "" : sql_row[5]);
                     borrowRecord.m_nContinue = atoi(sql_row[6]);
                     borrowRecords.push_back(borrowRecord);
                 }
@@ -356,7 +355,7 @@ bool DB::SelectAllBorrowRecord(vector<BorrowRecord> &borrowRecords) {
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return true;
@@ -374,9 +373,9 @@ bool DB::SelectBorrowRecordByUserId(vector<BorrowRecord> &borrowRecords, int nUs
         if (!res) {
             result = mysql_store_result(&myCont);
             if (result) {
-                while (sql_row = mysql_fetch_row(result)) {
+                while ((sql_row = mysql_fetch_row(result))) {
                     if (nType == 1) {
-                        if (sql_row[5] != NULL) {
+                        if (sql_row[5] != nullptr) {
                             continue;
                         }
                     }
@@ -386,7 +385,7 @@ bool DB::SelectBorrowRecordByUserId(vector<BorrowRecord> &borrowRecords, int nUs
                     borrowRecord.m_nUserId = atoi(sql_row[2]);
                     borrowRecord.m_tBorrowDate = sql_row[3];
                     borrowRecord.m_tShouldReturnDate = sql_row[4];
-                    borrowRecord.m_tReturnDate = (sql_row[5] == NULL ? "" : sql_row[5]);
+                    borrowRecord.m_tReturnDate = (sql_row[5] == nullptr ? "" : sql_row[5]);
                     borrowRecord.m_nContinue = atoi(sql_row[6]);
                     borrowRecords.push_back(borrowRecord);
                 }
@@ -397,7 +396,7 @@ bool DB::SelectBorrowRecordByUserId(vector<BorrowRecord> &borrowRecords, int nUs
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return true;
@@ -417,7 +416,7 @@ User DB::SelectUserById(int nUserId) {
         if (!res) {
             result = mysql_store_result(&myCont);
             if (result) {
-                while (sql_row = mysql_fetch_row(result)) {
+                while ((sql_row = mysql_fetch_row(result))) {
                     user.m_nID = nUserId;
                     user.m_strName = sql_row[1];
                 }
@@ -428,13 +427,13 @@ User DB::SelectUserById(int nUserId) {
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return user;
 }
 
-bool DB::AddUser(User user) {
+bool DB::AddUser(const User &user) {
     string sql = "";
     char szRoleType[16];
     sprintf(szRoleType, "%d", user.m_nRole);
@@ -461,7 +460,7 @@ bool DB::SelectAllUser(vector<User> &users) {
         if (!res) {
             result = mysql_store_result(&myCont);
             if (result) {
-                while (sql_row = mysql_fetch_row(result)) {
+                while ((sql_row = mysql_fetch_row(result))) {
                     User user;
                     user.m_nID = atoi(sql_row[0]);
                     user.m_strName = sql_row[1];
@@ -475,7 +474,7 @@ bool DB::SelectAllUser(vector<User> &users) {
     } else {
         cout << "connect failed!" << endl;
     }
-    if (result != NULL) {
+    if (result != nullptr) {
         mysql_free_result(result);
     }
     return true;
